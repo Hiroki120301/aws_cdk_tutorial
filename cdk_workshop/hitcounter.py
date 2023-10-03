@@ -8,19 +8,21 @@ from aws_cdk import (
 
 import pytest
 
+
 class HitCounter(Construct):
 
     @property
     def handler(self):
-        return self._handler    
-    
+        return self._handler
+
     @property
     def table(self):
         return self._table
 
     def __init__(self, scope: Construct, id: str, downstream: _lambda.IFunction, read_capacity: int = 5, **kwargs):
         if read_capacity < 5 or read_capacity > 20:
-            raise ValueError('readCapacity must be greater than 5 or less than 20')
+            raise ValueError(
+                'readCapacity must be greater than 5 or less than 20')
         super().__init__(scope, id, **kwargs)
 
         self._table = ddb.Table(
@@ -40,17 +42,17 @@ class HitCounter(Construct):
                 'HITS_TABLE_NAME': self._table.table_name,
             }
         )
-        
+
         self._table.grant_read_write_data(self._handler)
         downstream.grant_invoke(self._handler)
 
 
 def test_dynamodb_raises():
-    stack = Stack() 
+    stack = Stack()
     with pytest.raises(Exception):
         HitCounter(stack, "HitCounter",
-                downstream=_lambda.Function(stack, "TestFunction",
-                    runtime='hello.handler',
-                    handler='hello.handler',
-                    code=_lambda.Code.from_asset('lambda')),
-                read_capacity=1,)
+                   downstream=_lambda.Function(stack, "TestFunction",
+                                               runtime='hello.handler',
+                                               handler='hello.handler',
+                                               code=_lambda.Code.from_asset('lambda')),
+                   read_capacity=1,)
