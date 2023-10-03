@@ -2,8 +2,11 @@ from constructs import Construct
 from aws_cdk import (
     aws_lambda as _lambda,
     aws_dynamodb as ddb,
-    RemovalPolicy
+    RemovalPolicy,
+    Stack,
 )
+
+import pytest
 
 class HitCounter(Construct):
 
