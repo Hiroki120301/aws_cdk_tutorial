@@ -5,6 +5,8 @@ from aws_cdk import (
     pipelines
 )
 
+from cdk_workshop.pipeline_stage import WorkshopPipelineStage
+
 
 class WorkshopPipelineStack(Stack):
 
