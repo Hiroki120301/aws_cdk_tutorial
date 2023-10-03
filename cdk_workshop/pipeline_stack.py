@@ -16,7 +16,7 @@ class WorkshopPipelineStack(Stack):
         #  Creates a CodeCommit repository called 'WorkshopRepo'
         repo = codecommit.Repository(
             self, 'WorkshopRepo',
-            repository_name= "WorkshopRepo"
+            repository_name="WorkshopRepo"
         )
         pipeline = pipelines.CodePipeline(
             self,
@@ -26,7 +26,8 @@ class WorkshopPipelineStack(Stack):
                 input=pipelines.CodePipelineSource.code_commit(repo, "master"),
                 commands=[
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
-                    "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
+                    # Instructs Codebuild to install required packages
+                    "pip install -r requirements.txt",
                     "cdk synth",
                 ]
             ),
@@ -34,4 +35,3 @@ class WorkshopPipelineStack(Stack):
 
         deploy = WorkshopPipelineStage(self, "Deploy")
         deploy_stage = pipeline.add_stage(deploy)
-        
