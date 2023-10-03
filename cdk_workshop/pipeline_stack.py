@@ -18,7 +18,6 @@ class WorkshopPipelineStack(Stack):
             self, 'WorkshopRepo',
             repository_name= "WorkshopRepo"
         )
-
         pipeline = pipelines.CodePipeline(
             self,
             "Pipeline",
